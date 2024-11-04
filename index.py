@@ -54,12 +54,20 @@ def remove_unnecessary():
     #print(f"Name + Class Year을 키로 한 딕셔너리: {name_year_dict}")
 
 def action_ball(serial_num, action):
+    #print(serial_num, action)
+
+    serial_num = str(serial_num)
+
     for i in name_year_dict.keys():
         if name_year_dict[i][' ID Serial Code'] == serial_num:
+            print(i)
             if action == "borrowing":
                 name_year_dict[i]['Borrowed'] += 1
-            else:
+                return 0
+            elif action == "returning":
                 name_year_dict[i]['Borrowed'] -= 1
+                return 0
+
     print("There is no ID Serial with that number")
 
 def track_no_return():
@@ -97,6 +105,9 @@ def process_input():
 if __name__ == '__main__':
     load_data()  # 데이터 로드
     remove_unnecessary()  #필요 없는 인덱스는 제거
+    
+    """for i in name_year_dict.keys():
+        print(i, name_year_dict[i], end="\n")"""
 
     for i in range(3):
         a, b = map(str, input().split())
