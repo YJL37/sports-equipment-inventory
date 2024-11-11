@@ -1,6 +1,13 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import os
+import serial
+
+py_serial = serial.Serial(
+    
+    port = 'COM4', 
+    baudrate = '9600'
+)
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -109,9 +116,20 @@ if __name__ == '__main__':
     """for i in name_year_dict.keys():
         print(i, name_year_dict[i], end="\n")"""
 
-    for i in range(3):
+    """for i in range(3):
         a, b = map(str, input().split())
         action_ball(a, b)  #실제로 빌리기/반납하기
     
     track_no_return()  #반납 안한 사람
-    #app.run(host='127.0.0.1', port=8000, debug=True)
+    #app.run(host='127.0.0.1', port=8000, debug=True)"""
+
+    while (True):
+        #print("hi")
+        if py_serial.readable():
+            
+            # 들어온 값이 있으면 값을 한 줄 읽음 (BYTE 단위로 받은 상태)
+            # BYTE 단위로 받은 response 모습 : b'\xec\x97\x86\xec\x9d\x8c\r\n'
+            response = py_serial.readline()
+            
+            # 디코딩 후, 출력 (가장 끝의 \n을 없애주기위해 슬라이싱 사용)
+            print(response[:len(response)-1].decode())
